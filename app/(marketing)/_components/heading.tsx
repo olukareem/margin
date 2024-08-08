@@ -1,9 +1,8 @@
 "use client";
 
+import { Spinner } from "@/components/spinner";
 import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
 import { SignInButton } from "@clerk/clerk-react";
-import { Arrow } from "@radix-ui/react-dropdown-menu";
 import { useConvexAuth } from "convex/react";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
