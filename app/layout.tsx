@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
+import { EdgeStoreProvider } from '@/lib/edgestore';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,6 +37,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ConvexClientProvider>
+        <EdgeStoreProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -48,6 +50,8 @@ export default function RootLayout({
 
             {children}
           </ThemeProvider>
+          </EdgeStoreProvider>
+
         </ConvexClientProvider>
       </body>
     </html>
