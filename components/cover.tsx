@@ -1,15 +1,15 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
 import { useCoverImage } from "@/hook/use-cover-image";
+import { useEdgeStore } from "@/lib/edgestore";
 import { cn } from "@/lib/utils";
+import { useMutation } from "convex/react";
 import { ImageIcon, X } from "lucide-react";
 import Image from "next/image";
-import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
-import { removeCoverImage } from '../convex/documents';
 import { useParams } from "next/navigation";
-import { Id } from "@/convex/_generated/dataModel";
 
 interface CoverImageProps {
   url?: string;
@@ -17,19 +17,21 @@ interface CoverImageProps {
 }
 
 export const Cover = ({ url, preview }: CoverImageProps) => {
-const params = useParams();
-const coverImage = useCoverImage();
-const removeCoverImage = useMutation(api.documents.removeCoverImage);
+  const { edgestore } = useEdgeStore();
+  const params = useParams();
+  const coverImage = useCoverImage();
+  const removeCoverImage = useMutation(api.documents.removeCoverImage);
 
-const onRemove = () => {
+  const onRemove = async () => {
+    if (url) {
+      await edgestore.publicFiles.delete({
+        url: url,
+      });
+    }
     removeCoverImage({
-        id: params.documentId as Id<"documents">
-    })
-}
-
-
-
-
+      id: params.documentId as Id<"documents">,
+    });
+  };
 
   return (
     <div
@@ -43,7 +45,7 @@ const onRemove = () => {
       {url && !preview && (
         <div className="opacity-0 group-hover:opacity-100 absolute bottom-5 right-5 flex items-center gap-x-2">
           <Button
-            onClick={coverImage.onOpen}
+            onClick={() => coverImage.onReplace(url)}
             className="text-muted-foreground text-xs"
             variant="outline"
             size="sm"
