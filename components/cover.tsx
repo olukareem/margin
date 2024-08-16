@@ -10,6 +10,7 @@ import { useMutation } from "convex/react";
 import { ImageIcon, X } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface CoverImageProps {
   url?: string;
@@ -67,3 +68,9 @@ export const Cover = ({ url, preview }: CoverImageProps) => {
     </div>
   );
 };
+
+Cover.Skeleton = function CoverSkeleton() {
+    return (
+        <Skeleton className="w-full h-[12vh]"/>
+    )
+}

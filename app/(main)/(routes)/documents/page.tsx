@@ -1,20 +1,24 @@
 "use client";
 
-import Image from "next/image";
-import { useUser } from "@clerk/clerk-react";
 import { Button } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
-import { useMemo } from "react";
-import { useMutation } from "convex/react";
-import { toast } from "sonner";
 import { api } from "@/convex/_generated/api";
+import { useUser } from "@clerk/clerk-react";
+import { useMutation } from "convex/react";
+import { PlusCircle } from "lucide-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const DocumentsPage = () => {
+  const router = useRouter();
   const { user } = useUser();
   const create = useMutation(api.documents.create);
 
   const onCreate = () => {
-    const promise = create({ title: "Untitled" });
+    const promise = create({ title: "Untitled" }).then((documentId) =>
+      router.push(`/documents/${documentId}`),
+    );
+
     toast.promise(promise, {
       loading: "Creating a new note...",
       success: "New note created!",
@@ -24,14 +28,14 @@ const DocumentsPage = () => {
   return (
     <div className="h-full flex flex-col items-center justify-center space-y-4">
       <Image
-        src="/documents-white.png"
+        src="/documents-black.png"
         height="300"
         width="300"
         alt="Empty"
         className="dark:hidden"
       />{" "}
       <Image
-        src="/documents-black.png"
+        src="/documents-white.png"
         height="300"
         width="300"
         alt="Empty"
