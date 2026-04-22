@@ -108,13 +108,22 @@ PAT — blocked as expected.
 
 | Header | Value | Purpose |
 |---|---|---|
-| `Content-Security-Policy` | scoped to Convex / Clerk / EdgeStore origins, `frame-ancestors 'none'` | Blocks XSS and clickjacking |
+| `Content-Security-Policy` | scoped to Convex / Clerk / EdgeStore + regional AWS S3 hosts, `frame-ancestors 'none'` | Blocks XSS and clickjacking |
 | `X-Frame-Options` | `DENY` | Legacy clickjacking defense |
 | `X-Content-Type-Options` | `nosniff` | Blocks MIME sniffing on cover uploads |
 | `Referrer-Policy` | `strict-origin-when-cross-origin` | Stops note ids leaking in `Referer` |
 | `Permissions-Policy` | `camera=(), microphone=(), geolocation=()`, etc. | Locks down unused browser APIs |
 | `Strict-Transport-Security` | `max-age=63072000; includeSubDomains; preload` | Forces HTTPS |
 | (stripped) `X-Powered-By` | — | Removes framework fingerprint |
+
+### CSP caveat — EdgeStore upload targets
+
+EdgeStore mints presigned PUT URLs that target its underlying S3 bucket
+directly (today: `edge-store.s3.us-east-1.amazonaws.com`), not the
+`files.edgestore.dev` CDN host. Both `connect-src` and `img-src` must
+therefore allowlist AWS S3 regional wildcards or browsers will reject
+the upload with a CSP violation and a generic `status: 0` XHR failure.
+Smoke-tested end-to-end via the cover-image modal on 2026-04-22.
 
 ## How to re-run this audit
 
