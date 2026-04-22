@@ -1,30 +1,33 @@
+import type { Metadata } from "next";
+import { Inter, Instrument_Serif } from "next/font/google";
+import { Toaster } from "sonner";
+
 import { ConvexClientProvider } from "@/components/providers/convex-provider";
 import { ModalProvider } from "@/components/providers/modal-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { Toaster } from "sonner";
-import "./globals.css";
-import { EdgeStoreProvider } from '@/lib/edgestore';
+import { EdgeStoreProvider } from "@/lib/edgestore";
+import { cn } from "@/lib/utils";
 
-const inter = Inter({ subsets: ["latin"] });
+import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-serif",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: "Otion",
-  description: "Olu's workspace",
+  title: "Margin",
+  description: "Notes in the margins. Thoughts you come back to.",
   icons: {
-    icon: [
-      {
-        media: "(prefers-color-scheme: light)",
-        url: "/meridian-lightmode.svg",
-        href: "/meridian-lightmode.svg",
-      },
-      {
-        media: "(prefers-color-scheme: dark)",
-        url: "/meridian-darkmode.svg",
-        href: "/meridian-darkmode.svg",
-      },
-    ],
+    icon: "/favicon.svg",
   },
 };
 
@@ -34,25 +37,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
-        <ConvexClientProvider>
-        <EdgeStoreProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-            storageKey="otion-theme-A"
-          >
-            <Toaster position="bottom-center" />
-            <ModalProvider />
-
-            {children}
-          </ThemeProvider>
-          </EdgeStoreProvider>
-
-        </ConvexClientProvider>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={cn(inter.variable, instrumentSerif.variable)}
+    >
+      <body className="font-sans antialiased">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+          storageKey="margin-theme"
+        >
+          <ConvexClientProvider>
+            <EdgeStoreProvider>
+              <Toaster position="bottom-center" />
+              <ModalProvider />
+              {children}
+            </EdgeStoreProvider>
+          </ConvexClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

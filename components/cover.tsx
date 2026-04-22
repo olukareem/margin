@@ -1,16 +1,17 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
-import { useCoverImage } from "@/hook/use-cover-image";
-import { useEdgeStore } from "@/lib/edgestore";
-import { cn } from "@/lib/utils";
 import { useMutation } from "convex/react";
 import { ImageIcon, X } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import { Skeleton } from '@/components/ui/skeleton';
+
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { api } from "@/convex/_generated/api";
+import type { Id } from "@/convex/_generated/dataModel";
+import { useCoverImage } from "@/hook/use-cover-image";
+import { useEdgeStore } from "@/lib/edgestore";
+import { cn } from "@/lib/utils";
 
 interface CoverImageProps {
   url?: string;
@@ -19,19 +20,16 @@ interface CoverImageProps {
 
 export const Cover = ({ url, preview }: CoverImageProps) => {
   const { edgestore } = useEdgeStore();
-  const params = useParams();
+  const params = useParams<{ noteId?: string }>();
   const coverImage = useCoverImage();
-  const removeCoverImage = useMutation(api.documents.removeCoverImage);
+  const removeCover = useMutation(api.notes.removeCover);
 
   const onRemove = async () => {
+    if (!params.noteId) return;
     if (url) {
-      await edgestore.publicFiles.delete({
-        url: url,
-      });
+      await edgestore.publicFiles.delete({ url });
     }
-    removeCoverImage({
-      id: params.documentId as Id<"documents">,
-    });
+    await removeCover({ id: params.noteId as Id<"notes"> });
   };
 
   return (
@@ -52,7 +50,7 @@ export const Cover = ({ url, preview }: CoverImageProps) => {
             size="sm"
           >
             <ImageIcon className="h-4 w-4 mr-2" />
-            Change Cover
+            Change cover
           </Button>
           <Button
             onClick={onRemove}
@@ -70,7 +68,5 @@ export const Cover = ({ url, preview }: CoverImageProps) => {
 };
 
 Cover.Skeleton = function CoverSkeleton() {
-    return (
-        <Skeleton className="w-full h-[12vh]"/>
-    )
-}
+  return <Skeleton className="w-full h-[12vh]" />;
+};

@@ -1,15 +1,16 @@
 "use client";
+
+import { SignOutButton, useUser } from "@clerk/clerk-react";
 import { ChevronsLeftRight } from "lucide-react";
-import { useUser, SignOutButton } from "@clerk/clerk-react";
-import { Avatar, AvatarImage } from "../../../components/ui/avatar";
+
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '../../../components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 
 export const UserItem = () => {
   const { user } = useUser();
@@ -18,14 +19,15 @@ export const UserItem = () => {
       <DropdownMenuTrigger asChild>
         <div
           role="button"
-          className="flex items-center text-sm p-3 w-full hover:bg-primary/5"
+          tabIndex={0}
+          className="flex items-center text-sm p-3 w-full hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
         >
           <div className="gap-x-2 flex items-center max-w-[150px]">
             <Avatar className="h-5 w-5">
               <AvatarImage src={user?.imageUrl} />
             </Avatar>
             <span className="text-start font-medium line-clamp-1">
-              {user?.fullName}&apos;s Otion
+              {user?.fullName ? `${user.fullName}'s Margin` : "Margin"}
             </span>
           </div>
           <ChevronsLeftRight className="rotate-90 ml-2 text-muted-foreground h-4 w-4" />
@@ -39,7 +41,7 @@ export const UserItem = () => {
       >
         <div className="flex flex-col space-y-4 p-2">
           <p className="text-xs font-medium leading-none text-muted-foreground">
-            {user?.emailAddresses[0].emailAddress}
+            {user?.emailAddresses[0]?.emailAddress}
           </p>
           <div className="flex items-center gap-x-2">
             <div className="rounded-md bg-secondary p-1">
@@ -49,7 +51,7 @@ export const UserItem = () => {
             </div>
             <div className="space-y-1">
               <p className="text-sm line-clamp-1">
-                {user?.fullName}&apos;s Otion
+                {user?.fullName ? `${user.fullName}'s Margin` : "Margin"}
               </p>
             </div>
           </div>

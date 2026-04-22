@@ -1,23 +1,37 @@
 "use client";
 
+import { useMutation } from "convex/react";
+import { useRef, useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
-import { Doc } from "@/convex/_generated/dataModel";
-import { useMutation } from "convex/react";
-import { useRef, useState } from "react";
+import type { Doc } from "@/convex/_generated/dataModel";
+import { useDebouncedCallback } from "@/hook/use-debounced-callback";
+import { useSaveStatus } from "@/hook/use-save-status";
 
 interface TitleProps {
-  initialData: Doc<"documents">;
+  initialData: Doc<"notes">;
 }
 
 export const Title = ({ initialData }: TitleProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const update = useMutation(api.documents.update);
+  const update = useMutation(api.notes.updateNote);
+  const setState = useSaveStatus((s) => s.setState);
+  const markSaved = useSaveStatus((s) => s.markSaved);
 
   const [title, setTitle] = useState(initialData.title || "Untitled");
   const [isEditing, setIsEditing] = useState(false);
+
+  const debouncedUpdate = useDebouncedCallback<[string]>(async (next) => {
+    try {
+      await update({ id: initialData._id, title: next || "Untitled" });
+      markSaved();
+    } catch {
+      setState("error");
+    }
+  }, 400);
 
   const enableInput = () => {
     setTitle(initialData.title);
@@ -28,21 +42,17 @@ export const Title = ({ initialData }: TitleProps) => {
     }, 0);
   };
 
-  const disableInput = () => {
-    setIsEditing(false);
-  };
+  const disableInput = () => setIsEditing(false);
+
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-    update({
-      id: initialData._id,
-      title: event.target.value || "Untitled",
-    });
+    const next = event.target.value;
+    setTitle(next);
+    setState("saving");
+    debouncedUpdate(next);
   };
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      disableInput();
-    }
+    if (event.key === "Enter") disableInput();
   };
 
   return (
@@ -65,7 +75,7 @@ export const Title = ({ initialData }: TitleProps) => {
           size="sm"
           className="font-normal h-auto p-1"
         >
-          <span className="truncate">{initialData?.title}</span>
+          <span className="truncate">{initialData.title}</span>
         </Button>
       )}
     </div>

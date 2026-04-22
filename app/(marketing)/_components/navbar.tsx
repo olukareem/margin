@@ -1,13 +1,15 @@
 "use client";
 
+import { SignInButton, UserButton } from "@clerk/clerk-react";
+import { useConvexAuth } from "convex/react";
+import Link from "next/link";
+
 import { ModeToggle } from "@/components/mode-toggle";
 import { Spinner } from "@/components/spinner";
 import { Button } from "@/components/ui/button";
 import { useScrollTop } from "@/hook/use-scroll-top";
 import { cn } from "@/lib/utils";
-import { SignInButton, UserButton } from "@clerk/clerk-react";
-import { useConvexAuth } from "convex/react";
-import Link from "next/link";
+
 import { Logo } from "./logo";
 
 export const Navbar = () => {
@@ -17,8 +19,8 @@ export const Navbar = () => {
   return (
     <div
       className={cn(
-        "z-50 bg-background dark:bg-[#1F1F1F] fixed top-0 flex items-center w-full p-6",
-        scrolled && "border-b shadow-sm",
+        "z-50 bg-background/80 backdrop-blur fixed top-0 flex items-center w-full px-6 py-4",
+        scrolled && "border-b",
       )}
     >
       <Logo />
@@ -26,21 +28,20 @@ export const Navbar = () => {
         {isLoading && <Spinner />}
         {!isAuthenticated && !isLoading && (
           <>
-            <SignInButton>
+            <SignInButton mode="modal">
               <Button variant="ghost" size="sm">
                 Log in
               </Button>
             </SignInButton>
-            <SignInButton>
-              <Button size="sm">Get Otion free </Button>
+            <SignInButton mode="modal">
+              <Button size="sm">Start writing</Button>
             </SignInButton>
           </>
         )}
         {isAuthenticated && !isLoading && (
           <>
-            {" "}
             <Button variant="ghost" size="sm" asChild>
-              <Link href="/documents">Enter Otion</Link>
+              <Link href="/notes">Open notes</Link>
             </Button>
             <UserButton afterSignOutUrl="/" />
           </>

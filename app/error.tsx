@@ -1,30 +1,24 @@
 "use client";
 
-import Image from "next/image";
+import { AlertTriangle } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
 const Error = () => {
   return (
-    <div className="h-full flex flex-col items-center justify-center space-y-4">
-      <Image
-        src="/error-dark.png"
-        height="300"
-        width="300"
-        alt="Error"
-        className="dark:hidden"
-      />
-      <Image
-        src="/error-white.png"
-        height="300"
-        width="300"
-        alt="Error"
-        className="hidden dark:block"
-      />
-      <h2 className="text-xl font-medium">Something went wrong!</h2>
+    <div className="h-full flex flex-col items-center justify-center gap-y-6 px-6 text-center">
+      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-muted">
+        <AlertTriangle className="h-6 w-6 text-muted-foreground" />
+      </div>
+      <div className="space-y-2 max-w-md">
+        <h2 className="font-serif text-2xl">Something went wrong.</h2>
+        <p className="text-sm text-muted-foreground">
+          The page hit an error. Head back to your notes and try again.
+        </p>
+      </div>
       <Button asChild>
-        <Link href="/documents">Go back</Link>
+        <Link href="/notes">Back to notes</Link>
       </Button>
     </div>
   );

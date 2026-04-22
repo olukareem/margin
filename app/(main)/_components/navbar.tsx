@@ -1,32 +1,27 @@
 "use client";
 
-import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
-
 import { useQuery } from "convex/react";
-import { MenuIcon } from "lucide-react";
-
 import { useParams } from "next/navigation";
+
+import { api } from "@/convex/_generated/api";
+import type { Id } from "@/convex/_generated/dataModel";
 
 import { Banner } from "./banner";
 import { Menu } from "./menu";
-import { Title } from "./title";
 import { Publish } from "./publish";
+import { SaveIndicator } from "./save-indicator";
+import { Title } from "./title";
 
-interface NavbarProps {
-  isCollapsed: boolean;
-  onResetWidth: () => void;
-}
+export const Navbar = () => {
+  const params = useParams<{ noteId?: string }>();
+  const note = useQuery(
+    api.notes.getById,
+    params.noteId ? { id: params.noteId as Id<"notes"> } : "skip",
+  );
 
-export const Navbar = ({ isCollapsed, onResetWidth }: NavbarProps) => {
-  const params = useParams();
-  const document = useQuery(api.documents.getById, {
-    documentId: params.documentId as Id<"documents">,
-  });
-
-  if (document === undefined) {
+  if (note === undefined) {
     return (
-      <nav className="bg-background dark:bg-[#1F1F1F] px-3 py-2 w-full flex items-center justify-between">
+      <nav className="bg-background px-3 py-2 w-full flex items-center justify-between border-b">
         <Title.Skeleton />
         <div className="flex items-center gap-x-2">
           <Menu.Skeleton />
@@ -35,30 +30,21 @@ export const Navbar = ({ isCollapsed, onResetWidth }: NavbarProps) => {
     );
   }
 
-  if (document === null) {
-    return null;
-  }
+  if (note === null) return null;
 
   return (
     <>
-      <nav className="bg-background dark:bg-[#1F1F1F] px-3 py-2 w-full flex items-center gap-x-4">
-        {isCollapsed && (
-          <MenuIcon
-            role="button"
-            onClick={onResetWidth}
-            className="h-6 w-6 text-muted-foreground"
-          />
-        )}
-
-        <div className="flex items-center justify-between w-full">
-          <Title initialData={document} />
-          <div className="flex items-center gap-x-2">
-            <Publish initialData={document}/>
-            <Menu documentId={document._id} />
+      <nav className="bg-background px-3 py-2 w-full flex items-center gap-x-4 border-b">
+        <div className="flex items-center justify-between w-full gap-x-3">
+          <Title initialData={note} />
+          <div className="flex items-center gap-x-3">
+            <SaveIndicator />
+            <Publish initialData={note} />
+            <Menu noteId={note._id} />
           </div>
         </div>
       </nav>
-      {document.isArchived && <Banner documentId={document._id} />}
+      {note.isArchived && <Banner noteId={note._id} />}
     </>
   );
 };

@@ -1,24 +1,25 @@
 "use client";
 
-import { Spinner } from "@/components/spinner";
-import { Button } from "@/components/ui/button";
 import { SignInButton } from "@clerk/clerk-react";
 import { useConvexAuth } from "convex/react";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
+import { Spinner } from "@/components/spinner";
+import { Button } from "@/components/ui/button";
+
 export const Heading = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
+
   return (
-    <div className="max-w-3xl space-y-4">
-      <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold">
-        Your Ideas, Documents, & Plans. Unified. Welcome to{" "}
-        <span className="underline">Otion</span>
+    <div className="max-w-3xl space-y-6">
+      <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl leading-[1.05] tracking-tight">
+        Notes in the margins. Thoughts you come back to.
       </h1>
-      <h3 className="text-base sm:text-xl md:text-2xl font-medium">
-        Otion is the connect workspace where <br />
-        better, faster work happens.
-      </h3>
+      <p className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto">
+        A quiet writing space. Folders, tags, and a search that actually finds
+        what you wrote.
+      </p>
       {isLoading && (
         <div className="w-full flex items-center justify-center">
           <Spinner size="lg" />
@@ -26,8 +27,8 @@ export const Heading = () => {
       )}
       {isAuthenticated && !isLoading && (
         <Button asChild>
-          <Link href="documents">
-            Enter Otion
+          <Link href="/notes">
+            Open your notes
             <ArrowRight className="h-4 w-4 ml-2" />
           </Link>
         </Button>
@@ -35,7 +36,7 @@ export const Heading = () => {
       {!isAuthenticated && !isLoading && (
         <SignInButton mode="modal">
           <Button>
-            Get Otion free
+            Start writing
             <ArrowRight className="h-4 w-4 ml-2" />
           </Button>
         </SignInButton>
