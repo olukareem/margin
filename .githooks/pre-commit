@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Margin pre-commit hook: scan the staged diff for secrets.
+#
+# This file is versioned at .githooks/pre-commit and wired in via
+# `git config core.hooksPath .githooks` (see scripts/setup-hooks.sh).
+# Running gitleaks in --staged mode keeps the hook fast: it only
+# inspects what you are about to commit, not the full working tree
+# and not full history.
+
+set -euo pipefail
+
+if ! command -v gitleaks >/dev/null 2>&1; then
+  cat >&2 <<'EOF'
+pre-commit: gitleaks is not installed.
+
+Install it once, then retry your commit:
+  brew install gitleaks     # macOS
+  # or see https://github.com/gitleaks/gitleaks#installing
+
+If you absolutely must bypass (NOT recommended for shared branches):
+  git commit --no-verify
+EOF
+  exit 1
+fi
+
+gitleaks protect \
+  --staged \
+  --redact \
+  --config .gitleaks.toml \
+  --verbose

@@ -1,0 +1,30 @@
+title = "Margin gitleaks config"
+
+# Extend the default ruleset shipped with gitleaks; we only add
+# allowlists for this repo's known false-positive shapes.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Margin repo-level allowlist"
+
+# npm sha512 integrity hashes are base64 and frequently start with
+# "eyJ", which naive JWT scanners flag. These are safe and must not
+# block commits.
+regexes = [
+  '''"integrity":\s*"sha(256|384|512)-[A-Za-z0-9+/=]+=="''',
+]
+
+# Never scan these paths. Lockfiles contain integrity hashes that
+# pattern-match too aggressively; the build output and node_modules
+# are mirrors of upstream content we do not author.
+paths = [
+  '''package-lock\.json''',
+  '''yarn\.lock''',
+  '''pnpm-lock\.yaml''',
+  '''node_modules/''',
+  '''\.next/''',
+  '''out/''',
+  '''\.env\.example''',
+  '''\.env\.sample''',
+]
