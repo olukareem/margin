@@ -1,8 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, ChevronRight, MoreHorizontal, Plus, Trash } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronRight,
+  MoreHorizontal,
+  Plus,
+  Trash,
+} from "lucide-react";
 import { useMutation, useQuery } from "convex/react";
+import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -36,8 +43,7 @@ export const FolderRow = ({ folder, depth = 0 }: FolderRowProps) => {
   const isActive = params.folderId === folder._id;
   const paddingLeft = 8 + depth * 14;
 
-  const onCreateNote = async (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const onCreateNote = async () => {
     setExpanded(true);
     const promise = createNote({ folderId: folder._id }).then((id) =>
       router.push(`/notes/${id}`),
@@ -49,8 +55,7 @@ export const FolderRow = ({ folder, depth = 0 }: FolderRowProps) => {
     });
   };
 
-  const onDelete = async (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const onDelete = async () => {
     const promise = deleteFolder({ id: folder._id });
     toast.promise(promise, {
       loading: "Deleting folder",
@@ -62,32 +67,18 @@ export const FolderRow = ({ folder, depth = 0 }: FolderRowProps) => {
   return (
     <div>
       <div
-        role="button"
-        tabIndex={0}
-        onClick={() => {
-          setExpanded((v) => !v);
-          router.push(`/folder/${folder._id}`);
-        }}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            setExpanded((v) => !v);
-          }
-        }}
-        style={{ paddingLeft }}
         className={cn(
-          "group flex items-center gap-x-1 py-1 pr-2 text-sm rounded-sm hover:bg-sidebar-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+          "group flex items-center gap-x-1 py-1 pr-2 text-sm rounded-sm hover:bg-sidebar-hover",
           isActive && "bg-sidebar-hover text-sidebar-foreground",
         )}
+        style={{ paddingLeft }}
       >
         <button
           type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            setExpanded((v) => !v);
-          }}
-          className="h-5 w-5 shrink-0 rounded-sm hover:bg-sidebar-hover flex items-center justify-center"
+          onClick={() => setExpanded((v) => !v)}
+          className="h-5 w-5 shrink-0 rounded-sm hover:bg-sidebar-hover flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           aria-label={expanded ? "Collapse folder" : "Expand folder"}
+          aria-expanded={expanded}
         >
           {expanded ? (
             <ChevronDown className="h-4 w-4 text-muted-foreground" />
@@ -95,15 +86,20 @@ export const FolderRow = ({ folder, depth = 0 }: FolderRowProps) => {
             <ChevronRight className="h-4 w-4 text-muted-foreground" />
           )}
         </button>
-        <span className="w-4 text-center text-muted-foreground">
-          {folder.icon ?? ""}
-        </span>
-        <span className="flex-1 truncate font-medium">{folder.name}</span>
+        <Link
+          href={`/folder/${folder._id}`}
+          className="flex flex-1 items-center gap-x-1 min-w-0 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <span className="w-4 text-center text-muted-foreground">
+            {folder.icon ?? ""}
+          </span>
+          <span className="flex-1 truncate font-medium">{folder.name}</span>
+        </Link>
         <Button
           size="icon"
           variant="ghost"
           onClick={onCreateNote}
-          className="h-6 w-6 opacity-0 group-hover:opacity-100"
+          className="h-6 w-6 shrink-0 opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
           aria-label="New note in folder"
         >
           <Plus className="h-4 w-4 text-muted-foreground" />
@@ -113,8 +109,7 @@ export const FolderRow = ({ folder, depth = 0 }: FolderRowProps) => {
             <Button
               size="icon"
               variant="ghost"
-              onClick={(e) => e.stopPropagation()}
-              className="h-6 w-6 opacity-0 group-hover:opacity-100"
+              className="h-6 w-6 shrink-0 opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
               aria-label="Folder actions"
             >
               <MoreHorizontal className="h-4 w-4 text-muted-foreground" />

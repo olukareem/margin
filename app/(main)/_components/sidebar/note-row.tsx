@@ -1,7 +1,8 @@
 "use client";
 
 import { MoreHorizontal, Trash } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import { useMutation } from "convex/react";
 
@@ -22,14 +23,12 @@ interface NoteRowProps {
 }
 
 export const NoteRow = ({ note, depth = 0 }: NoteRowProps) => {
-  const router = useRouter();
   const params = useParams<{ noteId?: string }>();
   const archive = useMutation(api.notes.archiveNote);
 
   const isActive = params.noteId === note._id;
 
-  const onArchive = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const onArchive = () => {
     const promise = archive({ id: note._id });
     toast.promise(promise, {
       loading: "Moving to trash",
@@ -42,32 +41,27 @@ export const NoteRow = ({ note, depth = 0 }: NoteRowProps) => {
 
   return (
     <div
-      role="button"
-      tabIndex={0}
-      onClick={() => router.push(`/notes/${note._id}`)}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          router.push(`/notes/${note._id}`);
-        }
-      }}
-      style={{ paddingLeft }}
       className={cn(
-        "group flex items-center gap-x-2 py-1 pr-2 text-sm rounded-sm hover:bg-sidebar-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        "group flex items-center gap-x-2 py-1 pr-2 text-sm rounded-sm hover:bg-sidebar-hover",
         isActive && "bg-sidebar-hover text-sidebar-foreground",
       )}
+      style={{ paddingLeft }}
     >
-      <span className="w-4 text-center text-muted-foreground">
-        {note.icon ?? "·"}
-      </span>
-      <span className="flex-1 truncate">{note.title || "Untitled"}</span>
+      <Link
+        href={`/notes/${note._id}`}
+        className="flex flex-1 items-center gap-x-2 min-w-0 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      >
+        <span className="w-4 text-center text-muted-foreground">
+          {note.icon ?? "·"}
+        </span>
+        <span className="flex-1 truncate">{note.title || "Untitled"}</span>
+      </Link>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             size="icon"
             variant="ghost"
-            onClick={(e) => e.stopPropagation()}
-            className="h-6 w-6 opacity-0 group-hover:opacity-100"
+            className="h-6 w-6 shrink-0 opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
             aria-label="Note actions"
           >
             <MoreHorizontal className="h-4 w-4 text-muted-foreground" />

@@ -12,7 +12,7 @@ const Error = () => {
         <AlertTriangle className="h-6 w-6 text-muted-foreground" />
       </div>
       <div className="space-y-2 max-w-md">
-        <h2 className="text-xl font-semibold tracking-tight">Something went wrong.</h2>
+        <h1 className="text-xl font-semibold tracking-tight">Something went wrong.</h1>
         <p className="text-sm text-muted-foreground">
           The page hit an error. Head back to your notes and try again.
         </p>

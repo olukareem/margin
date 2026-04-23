@@ -29,9 +29,9 @@ const NotesPage = () => {
         <NotebookPen className="h-6 w-6 text-muted-foreground" />
       </div>
       <div className="space-y-2 max-w-md">
-        <h2 className="text-xl font-semibold tracking-tight">
+        <h1 className="text-xl font-semibold tracking-tight">
           Welcome{user?.firstName ? `, ${user.firstName}` : ""}.
-        </h2>
+        </h1>
         <p className="text-sm text-muted-foreground">
           Start a note, drop it in a folder, or tag it for later. Margin keeps
           the writing out of the way.

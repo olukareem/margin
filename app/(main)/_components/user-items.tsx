@@ -24,7 +24,10 @@ export const UserItem = () => {
         >
           <div className="gap-x-2 flex items-center max-w-[150px]">
             <Avatar className="h-5 w-5">
-              <AvatarImage src={user?.imageUrl} />
+              <AvatarImage
+                src={user?.imageUrl}
+                alt={user?.fullName ? `${user.fullName}'s avatar` : "User avatar"}
+              />
             </Avatar>
             <span className="text-start font-medium line-clamp-1">
               {user?.fullName ? `${user.fullName}'s Margin` : "Margin"}
@@ -46,7 +49,10 @@ export const UserItem = () => {
           <div className="flex items-center gap-x-2">
             <div className="rounded-md bg-secondary p-1">
               <Avatar className="h-8 w-8">
-                <AvatarImage src={user?.imageUrl} />
+                <AvatarImage
+                src={user?.imageUrl}
+                alt={user?.fullName ? `${user.fullName}'s avatar` : "User avatar"}
+              />
               </Avatar>
             </div>
             <div className="space-y-1">
