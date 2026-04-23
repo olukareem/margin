@@ -20,10 +20,34 @@ Two deploy modes are documented below:
   domain, secret rotation. Required when the app is actually shipping
   to customers.
 
-**Live as of 2026-04-22 (portfolio-demo mode):**
+**Live as of 2026-04-23 (portfolio-demo mode):**
 `https://margin-sage-six.vercel.app`. All seven security headers
 verified, Clerk middleware returning `x-clerk-auth-status: signed-out`
-on anonymous requests.
+on anonymous requests. Axe accessibility audit: 0 WCAG 2.1 AA
+violations on the public landing page.
+
+### Verify current state in one shell call
+
+```bash
+# Downloads the built layout chunk and extracts the two public env
+# values the app was compiled with. Dev backends are still active when
+# the Convex URL matches <adjective>-<animal>-<num>.convex.cloud and
+# the Clerk key starts pk_test_.
+curl -sL https://margin-sage-six.vercel.app/ \
+  | grep -oE '/_next/static/chunks/app/layout-[a-f0-9]+\.js' \
+  | head -1 \
+  | xargs -I{} curl -sL "https://margin-sage-six.vercel.app{}" \
+  | grep -oE 'https?://[a-z0-9-]+\.convex\.(cloud|site)|pk_(test|live)_[A-Za-z0-9]{10}'
+```
+
+Expected (portfolio-demo mode):
+```
+https://reliable-squirrel-815.convex.cloud
+pk_test_bWFzc2l2ZS
+```
+
+Any `pk_live_…` or non-adjective Convex URL means §1–§2 have been
+executed and the app is running on dedicated prod tenants.
 
 The full-prod order matters — Clerk prod keys must exist before
 Convex's JWT issuer can be updated, and Convex's prod deployment URL
