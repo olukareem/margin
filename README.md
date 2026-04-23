@@ -4,9 +4,19 @@
 
 Margin is an opinionated notes app for people who write to think. It keeps the chrome out of the way — folders, tags, full-text search, auto-save, and a small set of keyboard shortcuts — so the page is the thing you see.
 
-Built on Next.js 14, Convex, Clerk, and BlockNote. Dark-first, serif-titled, strict TypeScript end-to-end.
+Built on Next.js 14, Convex, Clerk, and BlockNote. Light-first with a dark companion, typeset in Inter, strict TypeScript end-to-end.
 
+> Live demo: [margin-sage-six.vercel.app](https://margin-sage-six.vercel.app)
 > Repo status: active. The app is shippable; see [Roadmap](#roadmap) for known gaps.
+
+![Margin landing, light mode](./docs/screenshots/landing-light.png)
+
+<details>
+<summary>Dark mode</summary>
+
+![Margin landing, dark mode](./docs/screenshots/landing-dark.png)
+
+</details>
 
 ---
 
@@ -14,11 +24,11 @@ Built on Next.js 14, Convex, Clerk, and BlockNote. Dark-first, serif-titled, str
 
 Most note apps either bury you in options (Notion) or treat writing as disposable (stickies, scratch pads). Margin picks a lane:
 
-- **Writing first.** Serif H1s, generous gutters, a reading measure capped at ~68ch.
+- **Writing first.** 40 px sans-bold H1 in the Notion tradition, generous gutters, a reading measure capped at ~68ch.
 - **One surface.** Folders and tags coexist — notes live at the root by default, move into folders when structure emerges.
 - **Keyboard-native.** `Cmd+K` to jump, `Cmd+N` to start, `Cmd+Backspace` to archive. No menu diving.
 - **Reactive.** Convex streams updates. Every edit you make appears instantly on every open tab.
-- **Quiet.** Warm-neutral palette, Instrument Serif display face, no gradients, no mascots, no AI features fighting for attention.
+- **Quiet.** Warm-grey type on a true-white canvas, one Inter face, no gradients, no mascots, no AI features fighting for attention.
 
 ---
 
@@ -31,7 +41,7 @@ Most note apps either bury you in options (Notion) or treat writing as disposabl
 | Auth           | [Clerk](https://clerk.com) + middleware-enforced route protection         |
 | Editor         | [BlockNote](https://blocknotejs.org) with debounced persistence           |
 | File uploads   | [EdgeStore](https://edgestore.dev) for cover images                       |
-| Styling        | Tailwind CSS, shadcn/ui, Radix primitives, Instrument Serif + Inter       |
+| Styling        | Tailwind CSS, shadcn/ui, Radix primitives, Inter (cv11, ss03 stylistic sets) |
 | State          | Zustand (UI state), next-themes (class-flip dark mode)                    |
 
 TypeScript runs with `strict`, `noUncheckedIndexedAccess`, and `exactOptionalPropertyTypes` on.
@@ -61,7 +71,7 @@ TypeScript runs with `strict`, `noUncheckedIndexedAccess`, and `exactOptionalPro
 
 ### Workspace
 - Resizable and collapsible sidebar, persisted to localStorage
-- Dark-first with an optional light theme
+- Light-first Notion-leaning palette, with a dark companion (persisted under the `margin-theme` storage key)
 - Empty states for welcome, empty folder, empty tag, empty trash
 - Trash view with restore and hard-delete
 
