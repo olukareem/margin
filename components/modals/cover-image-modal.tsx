@@ -7,6 +7,7 @@ import { useState } from "react";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -55,6 +56,9 @@ export const CoverImageModal = () => {
           <DialogTitle className="text-center text-lg font-semibold">
             Cover image
           </DialogTitle>
+          <DialogDescription className="sr-only">
+            Upload an image to display as the cover for this note.
+          </DialogDescription>
         </DialogHeader>
         <SingleImageDropzone
           className="w-full outline-none"

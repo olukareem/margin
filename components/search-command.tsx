@@ -50,6 +50,7 @@ export const SearchCommand = () => {
       onOpenChange={onClose}
       shouldFilter={false}
       label="Search notes"
+      description="Find notes by title. Press Enter to open."
     >
       <CommandInput
         placeholder="Search your notes"

@@ -3,6 +3,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -19,6 +20,9 @@ export const SettingsModal = () => {
       <DialogContent>
         <DialogHeader className="border-b pb-3">
           <DialogTitle className="text-lg font-medium">My settings</DialogTitle>
+          <DialogDescription className="sr-only">
+            Manage appearance and other preferences for your Margin workspace.
+          </DialogDescription>
         </DialogHeader>
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-y-1">
