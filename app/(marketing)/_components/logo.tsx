@@ -25,7 +25,7 @@ export const Logo = () => {
         />
         <circle cx="13" cy="11" r="2.5" fill="currentColor" />
       </svg>
-      <p className="font-serif text-xl leading-none">Margin</p>
+      <p className="font-sans font-semibold text-[17px] leading-none tracking-tight">Margin</p>
     </Link>
   );
 };

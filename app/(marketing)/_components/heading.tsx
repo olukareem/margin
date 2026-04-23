@@ -13,7 +13,7 @@ export const Heading = () => {
 
   return (
     <div className="max-w-3xl space-y-6">
-      <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl leading-[1.05] tracking-tight">
+      <h1 className="font-sans font-bold text-4xl sm:text-5xl md:text-[56px] leading-[1.1] tracking-tight">
         Notes in the margins. Thoughts you come back to.
       </h1>
       <p className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto">

@@ -53,8 +53,8 @@ export const NoteRow = ({ note, depth = 0 }: NoteRowProps) => {
       }}
       style={{ paddingLeft }}
       className={cn(
-        "group flex items-center gap-x-2 py-1 pr-2 text-sm rounded-sm hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-        isActive && "bg-primary/5 text-foreground",
+        "group flex items-center gap-x-2 py-1 pr-2 text-sm rounded-sm hover:bg-sidebar-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        isActive && "bg-sidebar-hover text-sidebar-foreground",
       )}
     >
       <span className="w-4 text-center text-muted-foreground">

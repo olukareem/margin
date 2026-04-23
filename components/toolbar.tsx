@@ -138,12 +138,12 @@ export const Toolbar = ({ initialData, preview }: ToolbarProps) => {
           onKeyDown={onKeyDown}
           value={value}
           onChange={(e) => onInput(e.target.value)}
-          className="text-5xl bg-transparent font-bold break-words outline-none text-foreground resize-none"
+          className="text-[40px] leading-[1.2] tracking-tight bg-transparent font-bold break-words outline-none text-foreground resize-none"
         />
       ) : (
         <div
           onClick={enableInput}
-          className="pb-[11.5px] text-5xl font-bold break-words outline-none text-foreground"
+          className="pb-[11.5px] text-[40px] leading-[1.2] tracking-tight font-bold break-words outline-none text-foreground"
         >
           {initialData.title}
         </div>

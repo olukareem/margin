@@ -10,7 +10,7 @@ const NotFound = () => {
   return (
     <div className="h-full flex flex-col items-center justify-center gap-y-6 px-6 text-center">
       <div className="space-y-2 max-w-md">
-        <h2 className="font-serif text-3xl">Nothing here.</h2>
+        <h2 className="text-2xl font-semibold tracking-tight">Nothing here.</h2>
         <p className="text-sm text-muted-foreground">
           The page you were looking for does not exist, or the note has been
           moved.

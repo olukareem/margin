@@ -30,8 +30,8 @@ export const TagFilter = () => {
               type="button"
               onClick={() => router.push(`/tag/${encodeURIComponent(name)}`)}
               className={cn(
-                "group flex items-center gap-x-2 px-3 py-1 text-sm text-muted-foreground hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm",
-                isActive && "bg-primary/5 text-foreground",
+                "group flex items-center gap-x-2 px-3 py-1 text-sm text-muted-foreground hover:bg-sidebar-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm",
+                isActive && "bg-sidebar-hover text-sidebar-foreground",
               )}
             >
               <Hash className="h-3.5 w-3.5" />

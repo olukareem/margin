@@ -1,5 +1,8 @@
 import type { Config } from "tailwindcss";
 
+// Typography + color tokens here stay deliberately close to Notion's own
+// UI shell: Inter for everything, a compressed font-size scale, and small
+// radii so primitives feel "page-like" instead of "SaaS-card-like."
 const config = {
   darkMode: ["class"],
   content: [
@@ -20,18 +23,30 @@ const config = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
-        serif: ["var(--font-serif)", "Georgia", "serif"],
+        // Single family. If --font-sans is missing, fall back to the
+        // platform stack before generic sans-serif so Safari/Firefox on
+        // Mac render "San Francisco UI" instead of "Helvetica."
+        sans: [
+          "var(--font-sans)",
+          "ui-sans-serif",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "sans-serif",
+        ],
       },
       fontSize: {
+        // Notion-y scale: compact, no dramatic jumps. Editor title uses
+        // the literal 40px class string so it matches Notion's h1 exactly.
         "2xs": ["0.6875rem", { lineHeight: "1rem" }],
         xs: ["0.75rem", { lineHeight: "1.125rem" }],
-        sm: ["0.8125rem", { lineHeight: "1.25rem" }],
-        base: ["0.9375rem", { lineHeight: "1.5rem" }],
-        lg: ["1.0625rem", { lineHeight: "1.625rem" }],
-        xl: ["1.5rem", { lineHeight: "2rem" }],
-        "2xl": ["2rem", { lineHeight: "2.5rem" }],
-        "3xl": ["3rem", { lineHeight: "3.25rem" }],
+        sm: ["0.875rem", { lineHeight: "1.375rem" }],
+        base: ["1rem", { lineHeight: "1.5rem" }],
+        lg: ["1.125rem", { lineHeight: "1.625rem" }],
+        xl: ["1.375rem", { lineHeight: "1.875rem" }],
+        "2xl": ["1.75rem", { lineHeight: "2.125rem" }],
+        "3xl": ["2.25rem", { lineHeight: "2.625rem" }],
+        "4xl": ["2.5rem", { lineHeight: "3rem" }],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -67,11 +82,23 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Sidebar panel token. Split out from "muted" because Notion's
+        // sidebar is a distinct off-white (#F7F6F3) that we don't want
+        // every <muted> component (badges, progress, skeletons) to
+        // inherit.
+        sidebar: {
+          DEFAULT: "hsl(var(--sidebar))",
+          foreground: "hsl(var(--sidebar-foreground))",
+          hover: "hsl(var(--sidebar-hover))",
+        },
       },
       borderRadius: {
+        // Notion uses 3px almost everywhere; the shadcn default of 0.5rem
+        // (8px) feels too rounded against the new palette. We keep
+        // lg/md/sm derivative so existing components stay consistent.
         lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        md: "calc(var(--radius) - 1px)",
+        sm: "calc(var(--radius) - 2px)",
       },
       keyframes: {
         "accordion-down": {

@@ -34,7 +34,7 @@ export const SidebarHeader = () => {
         <button
           type="button"
           onClick={openSearch}
-          className="flex items-center gap-x-2 px-3 py-1 text-sm text-muted-foreground hover:bg-primary/5 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="flex items-center gap-x-2 px-3 py-1 text-sm text-muted-foreground hover:bg-sidebar-hover rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <Search className="h-4 w-4" />
           <span className="flex-1 text-left">Search</span>
@@ -45,7 +45,7 @@ export const SidebarHeader = () => {
         <button
           type="button"
           onClick={openSettings}
-          className="flex items-center gap-x-2 px-3 py-1 text-sm text-muted-foreground hover:bg-primary/5 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="flex items-center gap-x-2 px-3 py-1 text-sm text-muted-foreground hover:bg-sidebar-hover rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <Settings className="h-4 w-4" />
           <span className="flex-1 text-left">Settings</span>
@@ -53,7 +53,7 @@ export const SidebarHeader = () => {
         <button
           type="button"
           onClick={onNew}
-          className="flex items-center gap-x-2 px-3 py-1 text-sm text-muted-foreground hover:bg-primary/5 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="flex items-center gap-x-2 px-3 py-1 text-sm text-muted-foreground hover:bg-sidebar-hover rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <Plus className="h-4 w-4" />
           <span className="flex-1 text-left">New note</span>
@@ -63,7 +63,7 @@ export const SidebarHeader = () => {
         </button>
         <Link
           href="/trash"
-          className="flex items-center gap-x-2 px-3 py-1 text-sm text-muted-foreground hover:bg-primary/5 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="flex items-center gap-x-2 px-3 py-1 text-sm text-muted-foreground hover:bg-sidebar-hover rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <Trash className="h-4 w-4" />
           <span className="flex-1 text-left">Trash</span>

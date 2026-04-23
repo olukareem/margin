@@ -76,8 +76,8 @@ export const FolderRow = ({ folder, depth = 0 }: FolderRowProps) => {
         }}
         style={{ paddingLeft }}
         className={cn(
-          "group flex items-center gap-x-1 py-1 pr-2 text-sm rounded-sm hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-          isActive && "bg-primary/5 text-foreground",
+          "group flex items-center gap-x-1 py-1 pr-2 text-sm rounded-sm hover:bg-sidebar-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+          isActive && "bg-sidebar-hover text-sidebar-foreground",
         )}
       >
         <button
@@ -86,7 +86,7 @@ export const FolderRow = ({ folder, depth = 0 }: FolderRowProps) => {
             e.stopPropagation();
             setExpanded((v) => !v);
           }}
-          className="h-5 w-5 shrink-0 rounded-sm hover:bg-primary/10 flex items-center justify-center"
+          className="h-5 w-5 shrink-0 rounded-sm hover:bg-sidebar-hover flex items-center justify-center"
           aria-label={expanded ? "Collapse folder" : "Expand folder"}
         >
           {expanded ? (

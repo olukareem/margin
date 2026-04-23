@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Instrument_Serif } from "next/font/google";
+import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
 
 import { ConvexClientProvider } from "@/components/providers/convex-provider";
@@ -10,16 +10,12 @@ import { cn } from "@/lib/utils";
 
 import "./globals.css";
 
+// Single font family: Inter for both UI and prose. Notion uses Inter
+// (plus a few system stack fallbacks) for everything — no serif display
+// face, no secondary family. Keeping this single-family matches.
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
-  display: "swap",
-});
-
-const instrumentSerif = Instrument_Serif({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-serif",
   display: "swap",
 });
 
@@ -40,12 +36,12 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn(inter.variable, instrumentSerif.variable)}
+      className={cn(inter.variable)}
     >
       <body className="font-sans antialiased">
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
           storageKey="margin-theme"

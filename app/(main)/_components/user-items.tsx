@@ -20,7 +20,7 @@ export const UserItem = () => {
         <div
           role="button"
           tabIndex={0}
-          className="flex items-center text-sm p-3 w-full hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
+          className="flex items-center text-sm p-3 w-full hover:bg-sidebar-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
         >
           <div className="gap-x-2 flex items-center max-w-[150px]">
             <Avatar className="h-5 w-5">

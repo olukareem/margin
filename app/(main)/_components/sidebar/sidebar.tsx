@@ -34,7 +34,7 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
       <aside
         ref={sidebarRef}
         className={cn(
-          "group/sidebar h-full bg-muted/40 border-r flex flex-col w-60 relative z-[99]",
+          "group/sidebar h-full bg-sidebar text-sidebar-foreground border-r flex flex-col w-60 relative z-[99]",
           isResetting && "transition-all ease-in-out duration-300",
           isMobile && "w-0",
         )}
@@ -43,7 +43,7 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
           type="button"
           onClick={collapse}
           className={cn(
-            "absolute top-3 right-2 h-6 w-6 rounded-sm text-muted-foreground hover:bg-primary/10 flex items-center justify-center opacity-0 group-hover/sidebar:opacity-100 transition",
+            "absolute top-3 right-2 h-6 w-6 rounded-sm text-muted-foreground hover:bg-sidebar-hover flex items-center justify-center opacity-0 group-hover/sidebar:opacity-100 transition",
             isMobile && "opacity-100",
           )}
           aria-label="Collapse sidebar"
@@ -60,7 +60,7 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
           onMouseDown={onMouseDown}
           onClick={resetWidth}
           aria-label="Resize sidebar"
-          className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 bg-primary/10 right-0 top-0"
+          className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 bg-sidebar-hover right-0 top-0"
         />
       </aside>
       <div

@@ -1,18 +1,76 @@
-# Margin — Production Deploy Handoff
+# Margin — Deploy Handoff
 
 Target stack: **Vercel** for the Next.js app, **Convex** cloud for the
-reactive backend, **Clerk** production instance for auth, **EdgeStore**
-for file uploads. Every external service already has a working dev
-tenant (`dev:reliable-squirrel-815` on Convex, `ins_2jLnMf…` on Clerk,
+reactive backend, **Clerk** for auth, **EdgeStore** for file uploads.
+Every external service already has a working dev tenant
+(`dev:reliable-squirrel-815` on Convex, `ins_2jLnMf…` on Clerk,
 `gydte2h1bvy5cz4f` on EdgeStore). This doc walks from "repo pushed to
 GitHub" to "public URL serving signed-in users" without leaving
 anything to guess.
 
-The order matters — Clerk prod keys must exist before Convex's JWT
-issuer can be updated, and Convex's prod deployment URL must exist
-before Vercel can set `NEXT_PUBLIC_CONVEX_URL`.
+Two deploy modes are documented below:
+
+- **Portfolio-demo mode** (fastest, §A) — ship to Vercel on top of the
+  existing Convex and Clerk **dev** tenants. Trade-off: `<UserButton />`
+  shows a small "Development" label, 100-user soft cap on Clerk dev,
+  Convex dashboard marks the deployment as dev. Appropriate for a
+  public demo / portfolio piece that isn't collecting real customers.
+- **Full production mode** (§1–§7) — dedicated Clerk prod instance with
+  `pk_live_…` keys, dedicated Convex prod deployment, optional custom
+  domain, secret rotation. Required when the app is actually shipping
+  to customers.
+
+**Live as of 2026-04-22 (portfolio-demo mode):**
+`https://margin-sage-six.vercel.app`. All seven security headers
+verified, Clerk middleware returning `x-clerk-auth-status: signed-out`
+on anonymous requests.
+
+The full-prod order matters — Clerk prod keys must exist before
+Convex's JWT issuer can be updated, and Convex's prod deployment URL
+must exist before Vercel can set `NEXT_PUBLIC_CONVEX_URL`.
 
 ---
+
+## §A. Portfolio-demo mode (fastest path)
+
+Skip §1, §2, §7 below. Reuse the dev Convex + dev Clerk instances.
+
+```bash
+# From /Users/Splice/Desktop/Projects/Personal Portfolio/margin/app
+vercel login                                # once per machine
+vercel link --yes --project margin --scope olukareems-projects
+
+# Push the seven env vars we already have locally.
+# Repeat per var for both "production" and "preview" targets.
+printf '%s' "$VALUE" | vercel env add NAME production
+printf '%s' "$VALUE" | vercel env add NAME preview
+# Required vars: NEXT_PUBLIC_CONVEX_URL, NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+# CLERK_SECRET_KEY, CLERK_JWT_ISSUER_DOMAIN, EDGE_STORE_ACCESS_KEY,
+# EDGE_STORE_SECRET_KEY. Use the dev values from .env.local verbatim.
+
+vercel --prod --yes                          # first deploy, ~60s
+```
+
+Capture the aliased prod URL from the output (e.g.
+`https://margin-sage-six.vercel.app`). No build-command override is
+needed — Convex functions already live on the dev backend; Vercel only
+builds Next.js.
+
+Post-deploy one-time config:
+
+1. EdgeStore → `dashboard.edgestore.dev` → project `gydte2h1bvy5cz4f` →
+   **Allowed Origins**: add the aliased prod URL. If the list was
+   empty (permissive default), this is optional — smoke-test first.
+2. Clerk dev instance is already origin-agnostic; nothing to change.
+3. `curl -sI https://<url>/` — verify all seven headers (see §5).
+
+That's it. Pushes to `main` auto-redeploy via the GitHub integration.
+
+---
+
+---
+
+## §1–§7: Full production mode
 
 ## 0. Pre-flight
 

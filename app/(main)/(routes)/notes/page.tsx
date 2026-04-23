@@ -29,7 +29,7 @@ const NotesPage = () => {
         <NotebookPen className="h-6 w-6 text-muted-foreground" />
       </div>
       <div className="space-y-2 max-w-md">
-        <h2 className="font-serif text-2xl">
+        <h2 className="text-xl font-semibold tracking-tight">
           Welcome{user?.firstName ? `, ${user.firstName}` : ""}.
         </h2>
         <p className="text-sm text-muted-foreground">
