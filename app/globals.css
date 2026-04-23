@@ -27,7 +27,9 @@ body,
     --secondary: 40 13% 96%;
     --secondary-foreground: 37 8% 20%;
     --muted: 40 13% 96%;
-    --muted-foreground: 40 3% 47%;
+    /* L:44% gives #747169 on #FFFFFF -> 4.84:1, clears WCAG AA for body
+     * text. Previous L:47% (#7B7974) measured at 4.34:1 and failed. */
+    --muted-foreground: 40 3% 44%;
     --accent: 40 13% 94%;
     --accent-foreground: 37 8% 20%;
     --destructive: 4 74% 52%;
