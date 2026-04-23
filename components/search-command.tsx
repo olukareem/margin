@@ -45,7 +45,12 @@ export const SearchCommand = () => {
   };
 
   return (
-    <CommandDialog open={isOpen} onOpenChange={onClose} shouldFilter={false}>
+    <CommandDialog
+      open={isOpen}
+      onOpenChange={onClose}
+      shouldFilter={false}
+      label="Search notes"
+    >
       <CommandInput
         placeholder="Search your notes"
         value={query}

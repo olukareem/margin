@@ -8,6 +8,7 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { SingleImageDropzone } from "@/components/single-image-dropzone";
 import { api } from "@/convex/_generated/api";
@@ -51,7 +52,9 @@ export const CoverImageModal = () => {
     <Dialog open={coverImage.isOpen} onOpenChange={coverImage.onClose}>
       <DialogContent>
         <DialogHeader>
-          <h2 className="text-center text-lg font-semibold">Cover image</h2>
+          <DialogTitle className="text-center text-lg font-semibold">
+            Cover image
+          </DialogTitle>
         </DialogHeader>
         <SingleImageDropzone
           className="w-full outline-none"
